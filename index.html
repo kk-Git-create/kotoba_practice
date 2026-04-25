@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>ことば練習</title>
 <style>
   :root {
@@ -97,27 +97,49 @@
   .prog-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width .35s; }
   .q-info { font-size: 13px; color: var(--text-sub); text-align: right; margin-bottom: 14px; }
 
+  /*
+   * ── スマホ対応：クイズ画面のレイアウト ──
+   * キーボード表示時も画像が常に見えるよう、カードと入力欄を分離して固定配置
+   */
+  #screen-quiz {
+    display: none;
+    flex-direction: column;
+  }
+  #screen-quiz.active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 画像カード：常に画面内に表示。縦サイズを小さめに抑えてキーボードと共存 */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px;
+    padding: 12px 20px 16px;
     display: flex; flex-direction: column; align-items: center;
-    min-height: 280px; justify-content: center;
-    margin-bottom: 14px;
+    justify-content: center;
+    margin-bottom: 12px;
     position: relative;
+    /* キーボードが出た状態でも画像が収まる高さに制限 */
+    max-height: 52vw;
+    min-height: 160px;
   }
   .card-label {
-    position: absolute; top: 14px; left: 18px;
+    position: absolute; top: 10px; left: 14px;
     font-size: 12px; color: var(--text-sub);
   }
   .card-img {
-    width: 200px; height: 200px;
+    /* カード内に収まるよう100%指定 */
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(52vw - 48px);
+    min-height: 100px;
     object-fit: contain;
     border-radius: 8px;
   }
   .card-no-img {
-    width: 200px; height: 200px;
+    width: 140px; height: 140px;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     background: var(--bg);
@@ -129,13 +151,29 @@
   }
   .card-no-img-icon { font-size: 40px; }
 
-  .ans-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  /* 入力エリア：画面下部に sticky で固定 */
+  .quiz-input-area {
+    position: sticky;
+    bottom: 0;
+    background: var(--bg);
+    padding: 8px 0 12px;
+    /* 上に影を付けてカードと分離感を出す */
+    box-shadow: 0 -6px 16px rgba(0,0,0,0.06);
+    z-index: 10;
+    margin: 0 -4px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .ans-row { display: flex; gap: 8px; margin-bottom: 10px; }
   .ans-input {
     flex: 1; padding: 14px 16px;
     font-size: 20px; border: 1.5px solid var(--border);
     border-radius: 10px; font-family: var(--font);
     background: var(--surface); color: var(--text);
     outline: none;
+    /* iOSでフォント自動拡大を防ぐ */
+    font-size: max(16px, 1em);
   }
   .ans-input:focus { border-color: var(--accent); }
   .ans-input:disabled { background: var(--bg); }
@@ -150,10 +188,10 @@
   .ok-btn:disabled { opacity: .35; cursor: default; }
 
   .fb {
-    border-radius: 10px; padding: 13px 16px;
+    border-radius: 10px; padding: 11px 14px;
     font-size: 15px; font-weight: 700;
     display: none; animation: fadeUp .2s;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   @keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
   .fb.ok { background: var(--success-bg); color: var(--success); border: 1px solid #a8d8b4; }
@@ -176,7 +214,14 @@
   .res-score { font-size: 60px; font-weight: 900; color: var(--accent); }
   .res-denom { font-size: 26px; color: var(--text-sub); }
   .res-msg { font-size: 16px; color: var(--text-sub); margin-top: 8px; }
-  .res-avg { font-size: 13px; color: var(--text-sub); margin-top: 6px; }
+  .res-avg {
+    font-size: 14px; color: var(--text-sub);
+    margin-top: 10px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    padding: 7px 14px;
+    display: inline-block;
+  }
   .new-best {
     display: inline-block;
     background: var(--warn-bg); color: var(--warn);
@@ -205,6 +250,7 @@
   .log-date { font-size: 14px; color: var(--text-sub); }
   .log-tries { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
   .log-score { font-size: 20px; font-weight: 800; color: var(--accent); }
+  .log-avg { font-size: 11px; color: var(--text-sub); margin-top: 3px; text-align: right; }
 
   /* ── admin ── */
   .adm-sec { margin-bottom: 28px; }
@@ -308,16 +354,24 @@
   <div id="screen-quiz" class="screen">
     <div class="prog-wrap"><div class="prog-fill" id="prog"></div></div>
     <div class="q-info" id="q-info">1 / 20</div>
+
+    <!-- 画像カード（上部固定エリア） -->
     <div class="card" id="card">
       <div class="card-label">これは何ですか？</div>
       <div id="card-content"></div>
     </div>
-    <div class="ans-row">
-      <input class="ans-input" id="ans" type="text" placeholder="こたえを入力" autocomplete="off" autocorrect="off" spellcheck="false" />
-      <button class="ok-btn" id="ok-btn" onclick="submit()">決定</button>
+
+    <!-- 入力エリア（sticky で下部固定） -->
+    <div class="quiz-input-area">
+      <div class="ans-row">
+        <input class="ans-input" id="ans" type="text" placeholder="こたえを入力"
+          autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+          enterkeyhint="done" />
+        <button class="ok-btn" id="ok-btn" onclick="submit()">決定</button>
+      </div>
+      <div class="fb" id="fb"></div>
+      <button class="next-btn" id="next-btn" onclick="nextQ()">つぎへ →</button>
     </div>
-    <div class="fb" id="fb"></div>
-    <button class="next-btn" id="next-btn" onclick="nextQ()">つぎへ →</button>
   </div>
 
   <!-- 結果 -->
@@ -368,16 +422,18 @@
     "image": "01_zaru.png"
   },
   {
-    "id": 2,
-    "word": "しゃもじ",
-    "reading": "しゃもじ",
-    "image": "02_shamoji.png"
+    "id": 13,
+    "word": "スタンプ",
+    "reading": "すたんぷ",
+    "image": "13_stamp.png",
+    "aliases": ["はんこ", "印鑑", "いんかん"]
   }
 ]</div>
       <div class="adm-note">
         ・<code>word</code>：漢字またはひらがな（正解判定に使用）<br>
         ・<code>reading</code>：必ずひらがな（揺れ吸収のため）<br>
-        ・<code>image</code>：同じフォルダにある画像ファイル名
+        ・<code>image</code>：同じフォルダにある画像ファイル名<br>
+        ・<code>aliases</code>：別名・同義語リスト（省略可）。例：スタンプ→はんこ
       </div>
     </div>
 
@@ -419,7 +475,6 @@ async function loadWords() {
     allWords = await r.json();
     return true;
   } catch(e) {
-    /* フォールバック：サンプルデータ（画像なし） */
     allWords = [
       {id:1,word:"ざる",reading:"ざる",image:""},
       {id:2,word:"しゃもじ",reading:"しゃもじ",image:""},
@@ -433,7 +488,7 @@ async function loadWords() {
       {id:10,word:"せいろ",reading:"せいろ",image:""},
       {id:11,word:"付箋",reading:"ふせん",image:""},
       {id:12,word:"封筒",reading:"ふうとう",image:""},
-      {id:13,word:"スタンプ",reading:"すたんぷ",image:""},
+      {id:13,word:"スタンプ",reading:"すたんぷ",image:"",aliases:["はんこ","印鑑","いんかん"]},
       {id:14,word:"虫眼鏡",reading:"むしめがね",image:""},
       {id:15,word:"温度計",reading:"おんどけい",image:""},
       {id:16,word:"そろばん",reading:"そろばん",image:""},
@@ -495,7 +550,6 @@ function loadQ() {
   document.getElementById('ok-btn').disabled = false;
   document.getElementById('fb').style.display = 'none';
   document.getElementById('next-btn').style.display = 'none';
-  document.getElementById('ans').focus();
 
   /* 絵カード表示 */
   const cc = document.getElementById('card-content');
@@ -514,6 +568,13 @@ function loadQ() {
   }
 
   tStart = Date.now();
+
+  /* フォーカス：スマホではキーボードが出て画像が隠れるため、
+     少し遅延させてから入力欄へフォーカス（スクロール位置が安定してから） */
+  setTimeout(() => {
+    const input = document.getElementById('ans');
+    input.focus({ preventScroll: true }); // ページ自動スクロールを防ぐ
+  }, 100);
 }
 
 /* ── 回答 ── */
@@ -550,21 +611,29 @@ function submit() {
 
 function nextQ() { idx++; loadQ(); }
 
-/* ── 正誤判定（揺れ吸収） ── */
+/* ── 正誤判定（揺れ吸収 + aliases対応） ── */
 function normalize(s) {
   return s.trim()
     .replace(/\s/g, '')
-    .replace(/[ァ-ン]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60))
-    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+    .replace(/[ァ-ン]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60))  // カタカナ→ひらがな
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))  // 全角→半角
     .toLowerCase();
 }
 
 function judge(ans, item) {
   if (!ans.trim()) return false;
   const a = normalize(ans);
-  const targets = [normalize(item.word), normalize(item.reading)];
+
+  // 判定対象：word・reading・aliases すべて
+  const targets = [
+    normalize(item.word),
+    normalize(item.reading),
+    ...(item.aliases || []).map(normalize),
+  ];
+
   for (const t of targets) {
     if (a === t) return true;
+    // 部分一致（2文字以上の場合のみ）
     if (t.length >= 2 && (a.includes(t) || t.includes(a))) return true;
   }
   return false;
@@ -575,15 +644,21 @@ function showResult() {
   document.getElementById('prog').style.width = '100%';
   const avg = totalTime / Q_COUNT;
   document.getElementById('res-score').textContent = score;
+
   const pct = score / Q_COUNT;
   let msg, icon;
   if (pct >= .9)      { msg = 'すばらしい！'; icon = '🎉'; }
   else if (pct >= .7) { msg = 'よくできました！'; icon = '😊'; }
   else if (pct >= .5) { msg = 'もう少し！'; icon = '💪'; }
   else                { msg = 'また練習しよう'; icon = '🌱'; }
+
   document.getElementById('res-icon').textContent = icon;
   document.getElementById('res-msg').textContent = msg;
-  document.getElementById('res-avg').textContent = '1問あたりの平均時間：' + avg.toFixed(1) + '秒';
+
+  // ⏱ 平均回答時間を結果画面に表示
+  const avgEl = document.getElementById('res-avg');
+  avgEl.textContent = '⏱ 平均回答時間：' + avg.toFixed(1) + '秒';
+  avgEl.style.display = 'inline-block';
 
   const log = getLog();
   const today = todayKey();
@@ -620,10 +695,14 @@ function renderLog() {
   log.forEach(e => { (grouped[e.date] = grouped[e.date] || []).push(e); });
   el.innerHTML = Object.entries(grouped).map(([date, arr]) => {
     const best = Math.max(...arr.map(e => e.score));
+    // 最高得点の回の平均時間を表示（複数あれば最も速いものを採用）
+    const bestEntries = arr.filter(e => e.score === best);
+    const bestAvg = Math.min(...bestEntries.map(e => e.avg ?? Infinity));
+    const avgStr = isFinite(bestAvg) ? `⏱ ${bestAvg.toFixed(1)}秒/問` : '';
     const [y,m,d] = date.split('-');
     return `<div class="log-item">
       <div><div class="log-date">${y}年${m}月${d}日</div><div class="log-tries">${arr.length}回挑戦</div></div>
-      <div class="log-score">${best} / ${Q_COUNT}</div>
+      <div style="text-align:right"><div class="log-score">${best} / ${Q_COUNT}</div><div class="log-avg">${avgStr}</div></div>
     </div>`;
   }).join('');
 }
