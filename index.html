@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ことば練習</title>
+<style>
+  :root {
+    --bg: #f5f3ee;
+    --surface: #ffffff;
+    --border: #ddd8cc;
+    --text: #2a2520;
+    --text-sub: #7a7268;
+    --accent: #2e7d9f;
+    --accent-light: #e6f3f9;
+    --success: #2a6e42;
+    --success-bg: #e8f5ec;
+    --error: #a02828;
+    --error-bg: #faeaea;
+    --warn-bg: #fdf3e3;
+    --warn: #8a5a10;
+    --radius: 14px;
+    --font: 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', 'Meiryo', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 48px;
+  }
+  #app { width: 100%; max-width: 500px; padding: 20px 16px; }
+
+  /* ── header ── */
+  .hd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .hd-title { font-size: 20px; font-weight: 800; letter-spacing: .03em; }
+  .hd-title em { color: var(--accent); font-style: normal; }
+  .hd-btns { display: flex; gap: 6px; }
+  .sm-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 13px;
+    font-size: 13px;
+    color: var(--text-sub);
+    cursor: pointer;
+    font-family: var(--font);
+  }
+  .sm-btn:hover { background: var(--accent-light); color: var(--accent); }
+
+  /* ── screens ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── home ── */
+  .home-hero {
+    background: var(--accent);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .home-hero-icon { font-size: 44px; margin-bottom: 10px; }
+  .home-hero h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .home-hero p { font-size: 14px; opacity: .85; line-height: 1.7; }
+  .start-btn {
+    display: block; width: 100%;
+    padding: 18px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: var(--radius);
+    font-size: 19px; font-weight: 800; font-family: var(--font);
+    cursor: pointer; margin-bottom: 12px;
+    letter-spacing: .06em;
+  }
+  .start-btn:hover { opacity: .88; }
+  .today-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .today-card .lbl { font-size: 14px; color: var(--text-sub); }
+  .today-card .val { font-size: 24px; font-weight: 800; color: var(--accent); }
+
+  /* ── quiz ── */
+  .prog-wrap { background: var(--border); border-radius: 4px; height: 6px; margin-bottom: 6px; overflow: hidden; }
+  .prog-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width .35s; }
+  .q-info { font-size: 13px; color: var(--text-sub); text-align: right; margin-bottom: 14px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 280px; justify-content: center;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .card-label {
+    position: absolute; top: 14px; left: 18px;
+    font-size: 12px; color: var(--text-sub);
+  }
+  .card-img {
+    width: 200px; height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .card-no-img {
+    width: 200px; height: 200px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--bg);
+    border-radius: 8px;
+    color: var(--text-sub);
+    font-size: 13px;
+    text-align: center;
+    gap: 8px;
+  }
+  .card-no-img-icon { font-size: 40px; }
+
+  .ans-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .ans-input {
+    flex: 1; padding: 14px 16px;
+    font-size: 20px; border: 1.5px solid var(--border);
+    border-radius: 10px; font-family: var(--font);
+    background: var(--surface); color: var(--text);
+    outline: none;
+  }
+  .ans-input:focus { border-color: var(--accent); }
+  .ans-input:disabled { background: var(--bg); }
+  .ok-btn {
+    padding: 14px 20px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 10px;
+    font-size: 16px; font-weight: 800; font-family: var(--font);
+    cursor: pointer;
+  }
+  .ok-btn:hover { opacity: .85; }
+  .ok-btn:disabled { opacity: .35; cursor: default; }
+
+  .fb {
+    border-radius: 10px; padding: 13px 16px;
+    font-size: 15px; font-weight: 700;
+    display: none; animation: fadeUp .2s;
+    margin-bottom: 10px;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+  .fb.ok { background: var(--success-bg); color: var(--success); border: 1px solid #a8d8b4; }
+  .fb.ng { background: var(--error-bg); color: var(--error); border: 1px solid #e8b0b0; }
+  .next-btn {
+    display: none; width: 100%; padding: 14px;
+    background: var(--surface); border: 1.5px solid var(--accent);
+    border-radius: 10px; font-size: 16px; font-weight: 700;
+    color: var(--accent); font-family: var(--font); cursor: pointer;
+  }
+  .next-btn:hover { background: var(--accent-light); }
+
+  /* ── result ── */
+  .result-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 32px 24px;
+    text-align: center; margin-bottom: 14px;
+  }
+  .res-icon { font-size: 52px; margin-bottom: 10px; }
+  .res-score { font-size: 60px; font-weight: 900; color: var(--accent); }
+  .res-denom { font-size: 26px; color: var(--text-sub); }
+  .res-msg { font-size: 16px; color: var(--text-sub); margin-top: 8px; }
+  .res-avg { font-size: 13px; color: var(--text-sub); margin-top: 6px; }
+  .new-best {
+    display: inline-block;
+    background: var(--warn-bg); color: var(--warn);
+    border-radius: 20px; padding: 5px 16px;
+    font-size: 13px; font-weight: 700; margin-top: 12px;
+  }
+  .big-btn {
+    display: block; width: 100%; padding: 16px;
+    border: none; border-radius: var(--radius);
+    font-size: 16px; font-weight: 700; font-family: var(--font);
+    cursor: pointer; margin-bottom: 10px;
+  }
+  .big-btn.primary { background: var(--accent); color: #fff; }
+  .big-btn.secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text-sub); }
+  .big-btn:hover { opacity: .85; }
+
+  /* ── log ── */
+  .sec-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+  .log-empty { font-size: 14px; color: var(--text-sub); text-align: center; padding: 24px 0; }
+  .log-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .log-date { font-size: 14px; color: var(--text-sub); }
+  .log-tries { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+  .log-score { font-size: 20px; font-weight: 800; color: var(--accent); }
+
+  /* ── admin ── */
+  .adm-sec { margin-bottom: 28px; }
+  .adm-sec-title {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    color: var(--text-sub); text-transform: uppercase; margin-bottom: 10px;
+  }
+  textarea.word-ta {
+    width: 100%; min-height: 200px; padding: 12px;
+    border: 1px solid var(--border); border-radius: 10px;
+    font-family: var(--font); font-size: 14px; line-height: 1.8;
+    color: var(--text); background: var(--surface);
+    resize: vertical; outline: none;
+  }
+  textarea.word-ta:focus { border-color: var(--accent); }
+  .adm-note { font-size: 12px; color: var(--text-sub); line-height: 1.7; margin-top: 6px; }
+  .adm-btn {
+    padding: 9px 18px; border-radius: 8px;
+    font-size: 14px; font-weight: 700; font-family: var(--font);
+    cursor: pointer; margin-top: 8px; margin-right: 6px;
+  }
+  .adm-btn.primary { background: var(--accent); color: #fff; border: none; }
+  .adm-btn.secondary { background: var(--surface); color: var(--accent); border: 1.5px solid var(--accent); }
+  .adm-btn:hover { opacity: .8; }
+  .saved-badge {
+    display: inline-block;
+    background: var(--success-bg); color: var(--success);
+    border-radius: 6px; padding: 4px 12px;
+    font-size: 12px; font-weight: 700; margin-left: 8px;
+    opacity: 0; transition: opacity .3s;
+  }
+  .saved-badge.show { opacity: 1; }
+
+  .info-box {
+    background: var(--accent-light);
+    border: 1px solid #b8daf0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+  .info-box code {
+    background: #d0e8f4;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12px;
+    font-family: monospace;
+  }
+  .folder-tree {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-family: monospace;
+    line-height: 2;
+    color: var(--text);
+    margin-top: 10px;
+  }
+  .json-preview {
+    background: #f0f4f0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 12px;
+    font-family: monospace;
+    line-height: 1.7;
+    color: var(--text);
+    margin-top: 10px;
+    white-space: pre;
+    overflow-x: auto;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hd">
+    <div class="hd-title">こと<em>ば</em>練習</div>
+    <div class="hd-btns">
+      <button class="sm-btn" onclick="showScreen('log')">📊 記録</button>
+      <button class="sm-btn" onclick="showScreen('admin')">⚙️ 管理</button>
+    </div>
+  </div>
+
+  <!-- ホーム -->
+  <div id="screen-home" class="screen active">
+    <div class="home-hero">
+      <div class="home-hero-icon">🃏</div>
+      <h2>ことば練習アプリ</h2>
+      <p>絵を見て、その名前を入力しましょう。<br>毎日少しずつ続けることが大切です。</p>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">▶ はじめる</button>
+    <div class="today-card">
+      <div class="lbl">今日の最高得点</div>
+      <div class="val" id="home-best">—</div>
+    </div>
+  </div>
+
+  <!-- クイズ -->
+  <div id="screen-quiz" class="screen">
+    <div class="prog-wrap"><div class="prog-fill" id="prog"></div></div>
+    <div class="q-info" id="q-info">1 / 20</div>
+    <div class="card" id="card">
+      <div class="card-label">これは何ですか？</div>
+      <div id="card-content"></div>
+    </div>
+    <div class="ans-row">
+      <input class="ans-input" id="ans" type="text" placeholder="こたえを入力" autocomplete="off" autocorrect="off" spellcheck="false" />
+      <button class="ok-btn" id="ok-btn" onclick="submit()">決定</button>
+    </div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQ()">つぎへ →</button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="screen-result" class="screen">
+    <div class="result-card">
+      <div class="res-icon" id="res-icon">🎉</div>
+      <div><span class="res-score" id="res-score">0</span><span class="res-denom"> / 20</span></div>
+      <div class="res-msg" id="res-msg"></div>
+      <div class="res-avg" id="res-avg"></div>
+      <div class="new-best" id="new-best" style="display:none">⭐ 今日の最高得点！</div>
+    </div>
+    <button class="big-btn primary" onclick="startQuiz()">もう一度やる</button>
+    <button class="big-btn secondary" onclick="showScreen('home');updateBest()">ホームへ戻る</button>
+  </div>
+
+  <!-- 記録 -->
+  <div id="screen-log" class="screen">
+    <div class="sec-title">📊 記録（過去２週間）</div>
+    <div id="log-list"></div>
+    <button class="big-btn secondary" onclick="showScreen('home')">← 戻る</button>
+  </div>
+
+  <!-- 管理 -->
+  <div id="screen-admin" class="screen">
+    <div class="sec-title">⚙️ 管理・更新ガイド</div>
+
+    <div class="adm-sec">
+      <div class="adm-sec-title">フォルダ構成</div>
+      <div class="info-box">
+        このアプリは <code>index.html</code>・<code>words.json</code>・画像ファイルを<strong>同じフォルダ</strong>に入れて使います。<br>
+        更新するときは <code>words.json</code> と画像ファイルを差し替えるだけです。
+      </div>
+      <div class="folder-tree">📁 kotoba_practice/<br>
+　├── index.html　　← このファイル<br>
+　├── words.json　　← 問題データ<br>
+　├── 01_zaru.png<br>
+　├── 02_shamoji.png<br>
+　└── ...</div>
+    </div>
+
+    <div class="adm-sec">
+      <div class="adm-sec-title">words.json の形式</div>
+      <div class="json-preview">[
+  {
+    "id": 1,
+    "word": "ざる",
+    "reading": "ざる",
+    "image": "01_zaru.png"
+  },
+  {
+    "id": 2,
+    "word": "しゃもじ",
+    "reading": "しゃもじ",
+    "image": "02_shamoji.png"
+  }
+]</div>
+      <div class="adm-note">
+        ・<code>word</code>：漢字またはひらがな（正解判定に使用）<br>
+        ・<code>reading</code>：必ずひらがな（揺れ吸収のため）<br>
+        ・<code>image</code>：同じフォルダにある画像ファイル名
+      </div>
+    </div>
+
+    <div class="adm-sec">
+      <div class="adm-sec-title">Geminiへのプロンプト（コピペ用）</div>
+      <div class="info-box">
+        <strong>① JSONを作成する</strong><br>
+        「失語症の呼称訓練用に、日常的だが使用頻度がやや低い物品の名称を20個選び、以下のJSON形式で出力して。<br>
+        <code>[{"id":1,"word":"ざる","reading":"ざる","image":"01_zaru.png"}, ...]</code><br>
+        imageはid2桁_ローマ字.png形式。」<br><br>
+        <strong>② 画像を生成する（1枚ずつ）</strong><br>
+        「白背景で、『〇〇』を中央に大きく描いたシンプルなイラスト。リハビリ用絵カード。文字・影・装飾は不要。」
+      </div>
+    </div>
+
+    <div class="adm-sec">
+      <div class="adm-sec-title">現在の読み込み状態</div>
+      <div id="admin-status" class="info-box">確認中…</div>
+    </div>
+
+    <button class="big-btn secondary" onclick="showScreen('home')">← 戻る</button>
+  </div>
+</div>
+
+<script>
+const Q_COUNT = 20;
+const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;
+const LOG_KEY = 'kotoba_log_v2';
+
+let allWords = [];
+let queue = [];
+let idx = 0, score = 0, totalTime = 0, tStart = 0, answered = false;
+
+/* ── データ読み込み ── */
+async function loadWords() {
+  try {
+    const r = await fetch('words.json');
+    if (!r.ok) throw new Error('not found');
+    allWords = await r.json();
+    return true;
+  } catch(e) {
+    /* フォールバック：サンプルデータ（画像なし） */
+    allWords = [
+      {id:1,word:"ざる",reading:"ざる",image:""},
+      {id:2,word:"しゃもじ",reading:"しゃもじ",image:""},
+      {id:3,word:"たわし",reading:"たわし",image:""},
+      {id:4,word:"ものさし",reading:"ものさし",image:""},
+      {id:5,word:"すりこぎ",reading:"すりこぎ",image:""},
+      {id:6,word:"やかん",reading:"やかん",image:""},
+      {id:7,word:"おたま",reading:"おたま",image:""},
+      {id:8,word:"ふきん",reading:"ふきん",image:""},
+      {id:9,word:"まな板",reading:"まないた",image:""},
+      {id:10,word:"せいろ",reading:"せいろ",image:""},
+      {id:11,word:"付箋",reading:"ふせん",image:""},
+      {id:12,word:"封筒",reading:"ふうとう",image:""},
+      {id:13,word:"スタンプ",reading:"すたんぷ",image:""},
+      {id:14,word:"虫眼鏡",reading:"むしめがね",image:""},
+      {id:15,word:"温度計",reading:"おんどけい",image:""},
+      {id:16,word:"そろばん",reading:"そろばん",image:""},
+      {id:17,word:"けん玉",reading:"けんだま",image:""},
+      {id:18,word:"お手玉",reading:"おてだま",image:""},
+      {id:19,word:"うちわ",reading:"うちわ",image:""},
+      {id:20,word:"風鈴",reading:"ふうりん",image:""},
+      {id:21,word:"こけし",reading:"こけし",image:""},
+      {id:22,word:"だるま",reading:"だるま",image:""},
+      {id:23,word:"招き猫",reading:"まねきねこ",image:""},
+      {id:24,word:"こま",reading:"こま",image:""},
+      {id:25,word:"ビー玉",reading:"びーだま",image:""},
+    ];
+    return false;
+  }
+}
+
+/* ── スクリーン切替 ── */
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  if (name === 'log') renderLog();
+  if (name === 'admin') renderAdmin();
+  if (name === 'home') updateBest();
+}
+
+/* ── ホーム ── */
+function updateBest() {
+  const log = getLog();
+  const today = todayKey();
+  const scores = log.filter(e => e.date === today).map(e => e.score);
+  document.getElementById('home-best').textContent =
+    scores.length ? Math.max(...scores) + ' / ' + Q_COUNT : '—';
+}
+
+/* ── クイズ開始 ── */
+async function startQuiz() {
+  showScreen('quiz');
+  if (allWords.length === 0) await loadWords();
+  const pool = shuffle([...allWords]);
+  queue = pool.length >= Q_COUNT ? pool.slice(0, Q_COUNT) : repeatTo(pool, Q_COUNT);
+  idx = 0; score = 0; totalTime = 0;
+  loadQ();
+}
+
+function repeatTo(arr, n) {
+  const out = [];
+  while (out.length < n) out.push(...arr);
+  return out.slice(0, n);
+}
+
+function loadQ() {
+  answered = false;
+  const item = queue[idx];
+  document.getElementById('q-info').textContent = (idx + 1) + ' / ' + Q_COUNT;
+  document.getElementById('prog').style.width = (idx / Q_COUNT * 100) + '%';
+  document.getElementById('ans').value = '';
+  document.getElementById('ans').disabled = false;
+  document.getElementById('ok-btn').disabled = false;
+  document.getElementById('fb').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+  document.getElementById('ans').focus();
+
+  /* 絵カード表示 */
+  const cc = document.getElementById('card-content');
+  if (item.image) {
+    const img = document.createElement('img');
+    img.className = 'card-img';
+    img.alt = '';
+    img.onerror = () => {
+      cc.innerHTML = `<div class="card-no-img"><div class="card-no-img-icon">🖼️</div><div>画像ファイルが<br>見つかりません<br><small style="font-size:11px;opacity:.7">${item.image}</small></div></div>`;
+    };
+    img.src = item.image;
+    cc.innerHTML = '';
+    cc.appendChild(img);
+  } else {
+    cc.innerHTML = `<div class="card-no-img"><div class="card-no-img-icon">🖼️</div><div>words.jsonに<br>画像を設定してください</div></div>`;
+  }
+
+  tStart = Date.now();
+}
+
+/* ── 回答 ── */
+function submit() {
+  if (answered) return;
+  const elapsed = (Date.now() - tStart) / 1000;
+  totalTime += elapsed;
+  answered = true;
+
+  const ans = document.getElementById('ans').value;
+  const item = queue[idx];
+  const ok = judge(ans, item);
+  if (ok) score++;
+
+  document.getElementById('ans').disabled = true;
+  document.getElementById('ok-btn').disabled = true;
+
+  const fb = document.getElementById('fb');
+  fb.style.display = 'block';
+  if (ok) {
+    fb.className = 'fb ok';
+    fb.textContent = '⭕ 正解！「' + item.word + '」';
+  } else {
+    fb.className = 'fb ng';
+    fb.textContent = '❌ 不正解。正しくは「' + item.word + '」';
+  }
+
+  if (idx < Q_COUNT - 1) {
+    document.getElementById('next-btn').style.display = 'block';
+  } else {
+    setTimeout(showResult, 900);
+  }
+}
+
+function nextQ() { idx++; loadQ(); }
+
+/* ── 正誤判定（揺れ吸収） ── */
+function normalize(s) {
+  return s.trim()
+    .replace(/\s/g, '')
+    .replace(/[ァ-ン]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60))
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+    .toLowerCase();
+}
+
+function judge(ans, item) {
+  if (!ans.trim()) return false;
+  const a = normalize(ans);
+  const targets = [normalize(item.word), normalize(item.reading)];
+  for (const t of targets) {
+    if (a === t) return true;
+    if (t.length >= 2 && (a.includes(t) || t.includes(a))) return true;
+  }
+  return false;
+}
+
+/* ── 結果 ── */
+function showResult() {
+  document.getElementById('prog').style.width = '100%';
+  const avg = totalTime / Q_COUNT;
+  document.getElementById('res-score').textContent = score;
+  const pct = score / Q_COUNT;
+  let msg, icon;
+  if (pct >= .9)      { msg = 'すばらしい！'; icon = '🎉'; }
+  else if (pct >= .7) { msg = 'よくできました！'; icon = '😊'; }
+  else if (pct >= .5) { msg = 'もう少し！'; icon = '💪'; }
+  else                { msg = 'また練習しよう'; icon = '🌱'; }
+  document.getElementById('res-icon').textContent = icon;
+  document.getElementById('res-msg').textContent = msg;
+  document.getElementById('res-avg').textContent = '1問あたりの平均時間：' + avg.toFixed(1) + '秒';
+
+  const log = getLog();
+  const today = todayKey();
+  const prev = log.filter(e => e.date === today).map(e => e.score);
+  const isNew = score > (prev.length ? Math.max(...prev) : -1);
+  document.getElementById('new-best').style.display = isNew ? 'inline-block' : 'none';
+
+  log.push({ ts: Date.now(), date: today, score, avg: parseFloat(avg.toFixed(1)) });
+  saveLog(log);
+
+  showScreen('result');
+}
+
+/* ── ログ ── */
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function getLog() {
+  try {
+    const raw = localStorage.getItem(LOG_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw).filter(e => e.ts >= Date.now() - TWO_WEEKS);
+  } catch(e) { return []; }
+}
+function saveLog(log) {
+  localStorage.setItem(LOG_KEY, JSON.stringify(log.filter(e => e.ts >= Date.now() - TWO_WEEKS)));
+}
+function renderLog() {
+  const log = getLog().sort((a,b) => b.ts - a.ts);
+  const el = document.getElementById('log-list');
+  if (!log.length) { el.innerHTML = '<div class="log-empty">まだ記録がありません</div>'; return; }
+  const grouped = {};
+  log.forEach(e => { (grouped[e.date] = grouped[e.date] || []).push(e); });
+  el.innerHTML = Object.entries(grouped).map(([date, arr]) => {
+    const best = Math.max(...arr.map(e => e.score));
+    const [y,m,d] = date.split('-');
+    return `<div class="log-item">
+      <div><div class="log-date">${y}年${m}月${d}日</div><div class="log-tries">${arr.length}回挑戦</div></div>
+      <div class="log-score">${best} / ${Q_COUNT}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ── 管理 ── */
+function renderAdmin() {
+  const el = document.getElementById('admin-status');
+  if (allWords.length > 0) {
+    el.innerHTML = `✅ words.json を読み込み済み（${allWords.length}単語）`;
+  } else {
+    el.innerHTML = `⚠️ words.json が見つかりません。サンプルデータで動作中です。<br>フォルダに words.json と画像ファイルを追加してください。`;
+  }
+}
+
+/* ── ユーティリティ ── */
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ── 初期化 ── */
+document.addEventListener('DOMContentLoaded', async () => {
+  document.getElementById('ans').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !answered) submit();
+  });
+  await loadWords();
+  updateBest();
+});
+</script>
+</body>
+</html>
