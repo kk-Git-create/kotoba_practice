@@ -311,6 +311,54 @@
     color: var(--text);
     margin-top: 10px;
   }
+  /* ── alias editor ── */
+  .ae-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+  }
+  .ae-word {
+    font-size: 15px; font-weight: 700; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ae-reading { font-size: 12px; color: var(--text-sub); font-weight: 400; }
+  .ae-tags {
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    min-height: 28px;
+  }
+  .ae-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--accent-light); color: var(--accent);
+    border-radius: 20px; padding: 3px 10px 3px 12px;
+    font-size: 13px; font-weight: 700;
+  }
+  .ae-tag-del {
+    background: none; border: none; cursor: pointer;
+    color: var(--accent); font-size: 14px; line-height: 1;
+    padding: 0 2px; opacity: .7;
+  }
+  .ae-tag-del:hover { opacity: 1; }
+  .ae-add-row {
+    display: flex; gap: 6px; margin-top: 8px;
+  }
+  .ae-add-input {
+    flex: 1; padding: 6px 10px;
+    font-size: 14px; border: 1px solid var(--border);
+    border-radius: 8px; font-family: var(--font);
+    background: var(--bg); color: var(--text); outline: none;
+  }
+  .ae-add-input:focus { border-color: var(--accent); background: var(--surface); }
+  .ae-add-btn {
+    padding: 6px 14px; border-radius: 8px;
+    background: var(--accent); color: #fff;
+    border: none; font-size: 13px; font-weight: 700;
+    font-family: var(--font); cursor: pointer;
+  }
+  .ae-add-btn:hover { opacity: .85; }
+  .ae-none { font-size: 12px; color: var(--text-sub); }
+
   .json-preview {
     background: #f0f4f0;
     border: 1px solid var(--border);
@@ -452,6 +500,32 @@
     <div class="adm-sec">
       <div class="adm-sec-title">現在の読み込み状態</div>
       <div id="admin-status" class="info-box">確認中…</div>
+    </div>
+
+    <!-- 単語編集UI -->
+    <div class="adm-sec">
+      <div class="adm-sec-title">単語データを編集する</div>
+      <div class="info-box" style="margin-bottom:10px;font-size:12px;">
+        ① Geminiで新しい words.json を生成する<br>
+        ② 「words.jsonを読み込む」でファイルを選択<br>
+        ③ 必要な単語に別名（aliases）を追加<br>
+        ④ 「words.jsonをダウンロード」してGitHubにアップ
+      </div>
+
+      <!-- 読み込みボタン -->
+      <label class="adm-btn primary" style="display:inline-block;cursor:pointer;margin-bottom:4px;">
+        📂 words.json を読み込む
+        <input type="file" id="words-file-input" accept=".json" style="display:none;" onchange="loadWordsFromFile(event)">
+      </label>
+      <div id="load-status" style="font-size:12px;color:var(--text-sub);margin-bottom:10px;min-height:18px;"></div>
+
+      <div id="alias-editor">
+        <div style="font-size:13px;color:var(--text-sub);padding:4px 0;">単語を読み込むと一覧が表示されます。</div>
+      </div>
+      <button class="adm-btn primary" id="dl-btn" onclick="downloadWords()"
+        style="width:100%;margin-top:12px;padding:14px;font-size:15px;display:none;">
+        ⬇ words.json をダウンロード
+      </button>
     </div>
 
     <button class="big-btn secondary" onclick="showScreen('home')">← 戻る</button>
@@ -709,12 +783,116 @@ function renderLog() {
 
 /* ── 管理 ── */
 function renderAdmin() {
+  // ステータス表示
   const el = document.getElementById('admin-status');
   if (allWords.length > 0) {
     el.innerHTML = `✅ words.json を読み込み済み（${allWords.length}単語）`;
   } else {
-    el.innerHTML = `⚠️ words.json が見つかりません。サンプルデータで動作中です。<br>フォルダに words.json と画像ファイルを追加してください。`;
+    el.innerHTML = `⚠️ words.json が見つかりません。サンプルデータで動作中です。`;
   }
+
+  // alias編集UIはファイル読み込み後に renderAliasEditor() で描画するため、
+  // ここでは初回のみ初期メッセージをセット（すでに描画済みなら触らない）
+  const dlBtn = document.getElementById('dl-btn');
+  if (allWords.length > 0 && dlBtn.style.display === 'none') {
+    // アプリ起動時にwords.jsonが読めていた場合は編集UIを表示
+    renderAliasEditor();
+  }
+}
+
+/* ── ファイル読み込み ── */
+function loadWordsFromFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const status = document.getElementById('load-status');
+  status.textContent = '読み込み中…';
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!Array.isArray(data)) throw new Error('配列ではありません');
+      allWords = data;
+      status.textContent = `✅ ${file.name}（${allWords.length}単語）を読み込みました`;
+      renderAliasEditor();
+    } catch(err) {
+      status.textContent = `❌ 読み込みエラー：正しいwords.jsonか確認してください`;
+    }
+    // 同じファイルを再度選べるようinputをリセット
+    event.target.value = '';
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function renderAliasEditor() {
+  const editor = document.getElementById('alias-editor');
+  const dlBtn  = document.getElementById('dl-btn');
+  if (!allWords.length) {
+    editor.innerHTML = '<div style="font-size:13px;color:var(--text-sub);">単語データがありません。</div>';
+    dlBtn.style.display = 'none';
+    return;
+  }
+  dlBtn.style.display = 'block';
+
+  editor.innerHTML = allWords.map((w, wi) => {
+    const aliases = w.aliases || [];
+    const tags = aliases.map((a, ai) =>
+      `<span class="ae-tag">${a}<button class="ae-tag-del" onclick="removeAlias(${wi},${ai})" title="削除">×</button></span>`
+    ).join('');
+    return `
+      <div class="ae-item">
+        <div class="ae-word">${w.word} <span class="ae-reading">（${w.reading}）</span></div>
+        <div class="ae-tags" id="tags-${wi}">
+          ${tags || '<span class="ae-none">別名なし</span>'}
+        </div>
+        <div class="ae-add-row">
+          <input class="ae-add-input" id="ai-${wi}" type="text" placeholder="別名を入力"
+            autocomplete="off" autocapitalize="none"
+            onkeydown="if(event.key==='Enter')addAlias(${wi})">
+          <button class="ae-add-btn" onclick="addAlias(${wi})">＋ 追加</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function addAlias(wi) {
+  const input = document.getElementById('ai-' + wi);
+  const val = input.value.trim();
+  if (!val) return;
+  if (!allWords[wi].aliases) allWords[wi].aliases = [];
+  // 重複チェック
+  if (allWords[wi].aliases.includes(val)) {
+    input.value = '';
+    return;
+  }
+  allWords[wi].aliases.push(val);
+  input.value = '';
+  renderAliasEditor();
+  setTimeout(() => {
+    const el = document.getElementById('ai-' + wi);
+    if (el) el.focus();
+  }, 50);
+}
+
+function removeAlias(wi, ai) {
+  allWords[wi].aliases.splice(ai, 1);
+  if (allWords[wi].aliases.length === 0) delete allWords[wi].aliases;
+  renderAliasEditor();
+}
+
+function downloadWords() {
+  // aliasesが空配列の場合は除去してきれいに出力
+  const data = allWords.map(w => {
+    const obj = { id: w.id, word: w.word, reading: w.reading, image: w.image };
+    if (w.aliases && w.aliases.length > 0) obj.aliases = w.aliases;
+    return obj;
+  });
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'words.json';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 /* ── ユーティリティ ── */
