@@ -42,7 +42,10 @@
     "id": 7,
     "word": "おたま",
     "reading": "おたま",
-    "image": "07_otama.png"
+    "image": "07_otama.png",
+    "aliases": [
+      "お玉"
+    ]
   },
   {
     "id": 8,
@@ -51,7 +54,8 @@
     "image": "08_fukin.png",
     "aliases": [
       "ぞうきん",
-      "たおる"
+      "たおる",
+      "はんかち"
     ]
   },
   {
@@ -70,7 +74,10 @@
     "id": 11,
     "word": "付箋",
     "reading": "ふせん",
-    "image": "11_fusen.png"
+    "image": "11_fusen.png",
+    "aliases": [
+      "おりがみ"
+    ]
   },
   {
     "id": 12,
