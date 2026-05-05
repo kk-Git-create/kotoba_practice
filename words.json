@@ -1,177 +1,152 @@
 [
   {
     "id": 1,
-    "word": "ざる",
-    "reading": "ざる",
-    "image": "01_zaru.png"
+    "word": "冷蔵庫",
+    "reading": "れいぞうこ",
+    "image": "01_reizoko.png"
   },
   {
     "id": 2,
-    "word": "しゃもじ",
-    "reading": "しゃもじ",
-    "image": "02_shamoji.png"
+    "word": "電子レンジ",
+    "reading": "でんしレンジ",
+    "image": "02_denshi_renji.png"
   },
   {
     "id": 3,
-    "word": "たわし",
-    "reading": "たわし",
-    "image": "03_tawashi.png"
+    "word": "掃除機",
+    "reading": "そうじき",
+    "image": "03_sojiki.png"
   },
   {
     "id": 4,
-    "word": "ものさし",
-    "reading": "ものさし",
-    "image": "04_monosashi.png",
-    "aliases": [
-      "じょうぎ"
-    ]
+    "word": "洗濯機",
+    "reading": "せんたくき",
+    "image": "04_sentakuki.png"
   },
   {
     "id": 5,
-    "word": "すりこぎ",
-    "reading": "すりこぎ",
-    "image": "05_surikogi.png"
+    "word": "炊飯器",
+    "reading": "すいはんき",
+    "image": "05_suihanki.png"
   },
   {
     "id": 6,
-    "word": "やかん",
-    "reading": "やかん",
-    "image": "06_yakan.png"
+    "word": "ドライヤー",
+    "reading": "どらいやー",
+    "image": "06_doraiya.png"
   },
   {
     "id": 7,
-    "word": "おたま",
-    "reading": "おたま",
-    "image": "07_otama.png",
-    "aliases": [
-      "お玉"
-    ]
+    "word": "フライパン",
+    "reading": "ふらいぱん",
+    "image": "07_furaipan.png"
   },
   {
     "id": 8,
-    "word": "ふきん",
-    "reading": "ふきん",
-    "image": "08_fukin.png",
-    "aliases": [
-      "ぞうきん",
-      "たおる",
-      "はんかち"
-    ]
+    "word": "鍋",
+    "reading": "なべ",
+    "image": "08_nabe.png"
   },
   {
     "id": 9,
-    "word": "まな板",
-    "reading": "まないた",
-    "image": "09_manaita.png"
+    "word": "ボウル",
+    "reading": "ぼうる",
+    "image": "09_boru.png"
   },
   {
     "id": 10,
-    "word": "せいろ",
-    "reading": "せいろ",
-    "image": "10_seiro.png"
+    "word": "包丁",
+    "reading": "ほうちょう",
+    "image": "10_hocho.png"
   },
   {
     "id": 11,
-    "word": "付箋",
-    "reading": "ふせん",
-    "image": "11_fusen.png",
-    "aliases": [
-      "おりがみ"
-    ]
+    "word": "洗剤",
+    "reading": "せんざい",
+    "image": "11_senzai.png"
   },
   {
     "id": 12,
-    "word": "封筒",
-    "reading": "ふうとう",
-    "image": "12_futo.png"
+    "word": "ラップ",
+    "reading": "らっぷ",
+    "image": "12_rappu.png"
   },
   {
     "id": 13,
-    "word": "スタンプ",
-    "reading": "すたんぷ",
-    "image": "13_stamp.png",
-    "aliases": [
-      "はんこ",
-      "印鑑",
-      "いんかん"
-    ]
+    "word": "スポンジ",
+    "reading": "すぽんじ",
+    "image": "13_suponji.png"
   },
   {
     "id": 14,
-    "word": "虫眼鏡",
-    "reading": "むしめがね",
-    "image": "14_mushimegane.png",
-    "aliases": [
-      "ルーペ"
-    ]
+    "word": "ゴミ袋",
+    "reading": "ごみぶくろ",
+    "image": "14_gomibukuro.png"
   },
   {
     "id": 15,
-    "word": "温度計",
-    "reading": "おんどけい",
-    "image": "15_ondokei.png"
+    "word": "ティッシュ",
+    "reading": "てぃっしゅ",
+    "image": "15_tisshu.png"
   },
   {
     "id": 16,
-    "word": "そろばん",
-    "reading": "そろばん",
-    "image": "16_soroban.png"
+    "word": "歯ブラシ",
+    "reading": "はぶらし",
+    "image": "16_haburashi.png"
   },
   {
     "id": 17,
-    "word": "けん玉",
-    "reading": "けんだま",
-    "image": "17_kendama.png"
+    "word": "シャンプー",
+    "reading": "しゃんぷー",
+    "image": "17_shanpu.png"
   },
   {
     "id": 18,
-    "word": "お手玉",
-    "reading": "おてだま",
-    "image": "18_otedama.png"
+    "word": "タオル",
+    "reading": "たおる",
+    "image": "18_taoru.png"
   },
   {
     "id": 19,
-    "word": "うちわ",
-    "reading": "うちわ",
-    "image": "19_uchiwa.png",
-    "aliases": [
-      "団扇"
-    ]
+    "word": "ハンガー",
+    "reading": "はんがー",
+    "image": "19_hanga.png"
   },
   {
     "id": 20,
-    "word": "風鈴",
-    "reading": "ふうりん",
-    "image": "20_furin.png"
+    "word": "電池",
+    "reading": "でんち",
+    "image": "20_denchi.png"
   },
   {
     "id": 21,
-    "word": "こけし",
-    "reading": "こけし",
-    "image": "21_kokeshi.png"
+    "word": "延長コード",
+    "reading": "えんちょうこーど",
+    "image": "21_encho_kodo.png"
   },
   {
     "id": 22,
-    "word": "だるま",
-    "reading": "だるま",
-    "image": "22_daruma.png"
+    "word": "はさみ",
+    "reading": "はさみ",
+    "image": "22_hasami.png"
   },
   {
     "id": 23,
-    "word": "招き猫",
-    "reading": "まねきねこ",
-    "image": "23_manekineko.png"
+    "word": "のり",
+    "reading": "のり",
+    "image": "23_nori.png"
   },
   {
     "id": 24,
-    "word": "こま",
-    "reading": "こま",
-    "image": "24_koma.png"
+    "word": "電球",
+    "reading": "でんきゅう",
+    "image": "24_denkyuu.png"
   },
   {
     "id": 25,
-    "word": "ビー玉",
-    "reading": "びーだま",
-    "image": "25_bidama.png"
+    "word": "体温計",
+    "reading": "たいおんけい",
+    "image": "25_taiOnkei.png"
   }
 ]
