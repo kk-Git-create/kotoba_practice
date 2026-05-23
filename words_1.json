@@ -1,0 +1,181 @@
+[
+  {
+    "id": 1,
+    "word": "箸",
+    "reading": "はし",
+    "image": "01_hashi.png"
+  },
+  {
+    "id": 2,
+    "word": "皿",
+    "reading": "さら",
+    "image": "02_sara.png"
+  },
+  {
+    "id": 3,
+    "word": "コップ",
+    "reading": "こっぷ",
+    "image": "03_koppu.png",
+    "aliases": [
+      "グラス",
+      "カップ"
+    ]
+  },
+  {
+    "id": 4,
+    "word": "フォーク",
+    "reading": "ふぉーく",
+    "image": "04_fork.png"
+  },
+  {
+    "id": 5,
+    "word": "醤油",
+    "reading": "しょうゆ",
+    "image": "05_shoyu.png"
+  },
+  {
+    "id": 6,
+    "word": "塩",
+    "reading": "しお",
+    "image": "06_shio.png"
+  },
+  {
+    "id": 7,
+    "word": "砂糖",
+    "reading": "さとう",
+    "image": "07_sato.png"
+  },
+  {
+    "id": 8,
+    "word": "酢",
+    "reading": "す",
+    "image": "08_su.png"
+  },
+  {
+    "id": 9,
+    "word": "お椀",
+    "reading": "おわん",
+    "image": "09_owan.png",
+    "aliases": [
+      "わん"
+    ]
+  },
+  {
+    "id": 10,
+    "word": "傘",
+    "reading": "かさ",
+    "image": "10_kasa.png"
+  },
+  {
+    "id": 11,
+    "word": "財布",
+    "reading": "さいふ",
+    "image": "11_saifu.png"
+  },
+  {
+    "id": 12,
+    "word": "鍵",
+    "reading": "かぎ",
+    "image": "12_kagi.png"
+  },
+  {
+    "id": 13,
+    "word": "手袋",
+    "reading": "てぶくろ",
+    "image": "13_tebukuro.png"
+  },
+  {
+    "id": 14,
+    "word": "マフラー",
+    "reading": "まふらー",
+    "image": "14_muffler.png",
+    "aliases": [
+      "スカーフ"
+    ]
+  },
+  {
+    "id": 15,
+    "word": "スニーカー",
+    "reading": "すにーかー",
+    "image": "15_sneaker.png",
+    "aliases": [
+      "くつ",
+      "靴"
+    ]
+  },
+  {
+    "id": 16,
+    "word": "リュック",
+    "reading": "りゅっく",
+    "image": "16_ryukku.png",
+    "aliases": [
+      "リュックサック",
+      "かばん"
+    ]
+  },
+  {
+    "id": 17,
+    "word": "帽子",
+    "reading": "ぼうし",
+    "image": "17_boshi.png"
+  },
+  {
+    "id": 18,
+    "word": "コート",
+    "reading": "こーと",
+    "image": "18_coat.png"
+  },
+  {
+    "id": 19,
+    "word": "スーパー",
+    "reading": "すーぱー",
+    "image": "19_super.png",
+    "aliases": [
+      "スーパーマーケット"
+    ]
+  },
+  {
+    "id": 20,
+    "word": "薬局",
+    "reading": "やっきょく",
+    "image": "20_yakkyoku.png",
+    "aliases": [
+      "ドラッグストア"
+    ]
+  },
+  {
+    "id": 21,
+    "word": "図書館",
+    "reading": "としょかん",
+    "image": "21_toshokan.png"
+  },
+  {
+    "id": 22,
+    "word": "郵便局",
+    "reading": "ゆうびんきょく",
+    "image": "22_yubinkyoku.png"
+  },
+  {
+    "id": 23,
+    "word": "銀行",
+    "reading": "ぎんこう",
+    "image": "23_ginko.png"
+  },
+  {
+    "id": 24,
+    "word": "病院",
+    "reading": "びょういん",
+    "image": "24_byoin.png"
+    "aliases": [
+      "クリニック"
+  },
+  {
+    "id": 25,
+    "word": "コンビニ",
+    "reading": "こんびに",
+    "image": "25_konbini.png",
+    "aliases": [
+      "コンビニエンスストア"
+    ]
+  }
+]
