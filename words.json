@@ -1,0 +1,176 @@
+[
+  {
+    "id": 1,
+    "word": "目覚まし時計",
+    "reading": "めざましどけい",
+    "image": "01_mezamashi.png"
+  },
+  {
+    "id": 2,
+    "word": "リモコン",
+    "reading": "りもこん",
+    "image": "02_rimokon.png"
+  },
+  {
+    "id": 3,
+    "word": "電卓",
+    "reading": "でんたく",
+    "image": "03_dentaku.png"
+  },
+  {
+    "id": 4,
+    "word": "イヤホン",
+    "reading": "いやほん",
+    "image": "04_iyahon.png",
+    "aliases": [
+      "ヘッドホン"
+    ]
+  },
+  {
+    "id": 5,
+    "word": "充電器",
+    "reading": "じゅうでんき",
+    "image": "05_judenki.png"
+  },
+  {
+    "id": 6,
+    "word": "マウス",
+    "reading": "まうす",
+    "image": "06_mausu.png"
+  },
+  {
+    "id": 7,
+    "word": "キーボード",
+    "reading": "きーぼーど",
+    "image": "07_kibodo.png"
+  },
+  {
+    "id": 8,
+    "word": "USBメモリ",
+    "reading": "ゆーえすびーめもり",
+    "image": "08_usb.png",
+    "aliases": [
+      "ゆーえすびー"
+    ]
+  },
+  {
+    "id": 9,
+    "word": "ノート",
+    "reading": "のーと",
+    "image": "09_noto.png"
+  },
+  {
+    "id": 10,
+    "word": "鉛筆",
+    "reading": "えんぴつ",
+    "image": "10_enpitsu.png"
+  },
+  {
+    "id": 11,
+    "word": "ボールペン",
+    "reading": "ぼーるぺん",
+    "image": "11_boropen.png",
+    "aliases": [
+      "ぺん"
+    ]
+  },
+  {
+    "id": 12,
+    "word": "消しゴム",
+    "reading": "けしごむ",
+    "image": "12_keshigomu.png"
+  },
+  {
+    "id": 13,
+    "word": "ホチキス",
+    "reading": "ほちきす",
+    "image": "13_hochikisu.png",
+    "aliases": [
+      "ステープラー"
+    ]
+  },
+  {
+    "id": 14,
+    "word": "クリップ",
+    "reading": "くりっぷ",
+    "image": "14_kurippu.png"
+  },
+  {
+    "id": 15,
+    "word": "定規",
+    "reading": "じょうぎ",
+    "image": "15_jogi.png",
+    "aliases": [
+      "ものさし"
+    ]
+  },
+  {
+    "id": 16,
+    "word": "画鋲",
+    "reading": "がびょう",
+    "image": "16_gabyo.png"
+  },
+  {
+    "id": 17,
+    "word": "修正テープ",
+    "reading": "しゅうせいてーぷ",
+    "image": "17_shuseitape.png",
+    "aliases": [
+      "しゅうせいえき"
+    ]
+  },
+  {
+    "id": 18,
+    "word": "蛍光ペン",
+    "reading": "けいこうぺん",
+    "image": "18_keikoppen.png",
+    "aliases": [
+      "マーカー"
+    ]
+  },
+  {
+    "id": 19,
+    "word": "手帳",
+    "reading": "てちょう",
+    "image": "19_techo.png"
+  },
+  {
+    "id": 20,
+    "word": "カレンダー",
+    "reading": "かれんだー",
+    "image": "20_karenda.png"
+  },
+  {
+    "id": 21,
+    "word": "体重計",
+    "reading": "たいじゅうけい",
+    "image": "21_taijukei.png"
+  },
+  {
+    "id": 22,
+    "word": "時計",
+    "reading": "とけい",
+    "image": "22_tokei.png",
+    "aliases": [
+      "うでどけい"
+    ]
+  },
+  {
+    "id": 23,
+    "word": "体温計",
+    "reading": "たいおんけい",
+    "image": "23_taiOnkei.png"
+  },
+  {
+    "id": 24,
+    "word": "電池",
+    "reading": "でんち",
+    "image": "24_denchi.png"
+  },
+  {
+    "id": 25,
+    "word": "カイロ",
+    "reading": "かいろ",
+    "image": "25_kairo.png"
+  }
+]
