@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "word": "醤油差し",
+    "reading": "しょうゆさし",
+    "image": "01_shoyusashi.png"
+  },
+  {
+    "id": 2,
+    "word": "味噌",
+    "reading": "みそ",
+    "image": "02_miso.png"
+  },
+  {
+    "id": 3,
+    "word": "油",
+    "reading": "あぶら",
+    "image": "03_abura.png"
+  },
+  {
+    "id": 4,
+    "word": "米",
+    "reading": "こめ",
+    "image": "04_kome.png"
+  },
+  {
+    "id": 5,
+    "word": "パスタ",
+    "reading": "ぱすた",
+    "image": "05_pasuta.png",
+    "aliases": [
+      "スパゲッティ",
+      "スパゲティ"
+    ]
+  },
+  {
+    "id": 6,
+    "word": "チーズ",
+    "reading": "ちーず",
+    "image": "06_chizu.png"
+  },
+  {
+    "id": 7,
+    "word": "はちみつ",
+    "reading": "はちみつ",
+    "image": "07_hachimitsu.png",
+    "aliases": [
+      "蜂蜜"
+    ]
+  },
+  {
+    "id": 8,
+    "word": "缶詰",
+    "reading": "かんづめ",
+    "image": "08_kanzume.png"
+  },
+  {
+    "id": 9,
+    "word": "ファイル",
+    "reading": "ふぁいる",
+    "image": "09_fairu.png"
+  },
+  {
+    "id": 10,
+    "word": "バインダー",
+    "reading": "ばいんだー",
+    "image": "10_bainda.png"
+  },
+  {
+    "id": 11,
+    "word": "名刺",
+    "reading": "めいし",
+    "image": "11_meishi.png"
+  },
+  {
+    "id": 12,
+    "word": "印刷用紙",
+    "reading": "いんさつようし",
+    "image": "12_insatsuyoshi.png",
+    "aliases": [
+      "コピー用紙"
+    ]
+  },
+  {
+    "id": 13,
+    "word": "電話",
+    "reading": "でんわ",
+    "image": "13_denwa.png"
+  },
+  {
+    "id": 14,
+    "word": "座布団",
+    "reading": "ざぶとん",
+    "image": "14_zabuton.png"
+  },
+  {
+    "id": 15,
+    "word": "布団",
+    "reading": "ふとん",
+    "image": "15_futon.png"
+  },
+  {
+    "id": 16,
+    "word": "カーテン",
+    "reading": "かーてん",
+    "image": "16_katen.png"
+  },
+  {
+    "id": 17,
+    "word": "クッション",
+    "reading": "くっしょん",
+    "image": "17_kusshon.png"
+  },
+  {
+    "id": 18,
+    "word": "鏡",
+    "reading": "かがみ",
+    "image": "18_kagami.png"
+  },
+  {
+    "id": 19,
+    "word": "花瓶",
+    "reading": "かびん",
+    "image": "19_kabin.png"
+  },
+  {
+    "id": 20,
+    "word": "物干し",
+    "reading": "ものほし",
+    "image": "20_monohoshi.png"
+  },
+  {
+    "id": 21,
+    "word": "アイロン",
+    "reading": "あいろん",
+    "image": "21_airon.png"
+  },
+  {
+    "id": 22,
+    "word": "スリッパ",
+    "reading": "すりっぱ",
+    "image": "22_surippa.png"
+  },
+  {
+    "id": 23,
+    "word": "本棚",
+    "reading": "ほんだな",
+    "image": "23_hondana.png"
+  },
+  {
+    "id": 24,
+    "word": "鞭",
+    "reading": "むち",
+    "image": "24_muchi.png"
+  },
+  {
+    "id": 25,
+    "word": "鞍",
+    "reading": "くら",
+    "image": "25_kura.png"
+  }
+]
