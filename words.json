@@ -1,0 +1,164 @@
+[
+  {
+    "id": 1,
+    "word": "自転車",
+    "reading": "じてんしゃ",
+    "image": "01_jitensha.png"
+  },
+  {
+    "id": 2,
+    "word": "バス",
+    "reading": "ばす",
+    "image": "02_basu.png"
+  },
+  {
+    "id": 3,
+    "word": "電車",
+    "reading": "でんしゃ",
+    "image": "03_densha.png"
+  },
+  {
+    "id": 4,
+    "word": "飛行機",
+    "reading": "ひこうき",
+    "image": "04_hikoki.png"
+  },
+  {
+    "id": 5,
+    "word": "船",
+    "reading": "ふね",
+    "image": "05_fune.png"
+  },
+  {
+    "id": 6,
+    "word": "信号機",
+    "reading": "しんごうき",
+    "image": "06_shingoki.png"
+  },
+  {
+    "id": 7,
+    "word": "ベンチ",
+    "reading": "べんち",
+    "image": "07_benchi.png"
+  },
+  {
+    "id": 8,
+    "word": "洗面器",
+    "reading": "せんめんき",
+    "image": "08_senmenki.png",
+    "aliases": [
+      "たらい"
+    ]
+  },
+  {
+    "id": 9,
+    "word": "くし",
+    "reading": "くし",
+    "image": "09_kushi.png",
+    "aliases": [
+      "ヘアブラシ"
+    ]
+  },
+  {
+    "id": 10,
+    "word": "石鹸",
+    "reading": "せっけん",
+    "image": "10_sekken.png",
+    "aliases": [
+      "シャボン"
+    ]
+  },
+  {
+    "id": 11,
+    "word": "歯磨き粉",
+    "reading": "はみがきこ",
+    "image": "11_hamigakiko.png"
+  },
+  {
+    "id": 12,
+    "word": "傘立て",
+    "reading": "かさたて",
+    "image": "12_kasatate.png"
+  },
+  {
+    "id": 13,
+    "word": "郵便受け",
+    "reading": "ゆうびんうけ",
+    "image": "13_yubinuke.png"
+  },
+  {
+    "id": 14,
+    "word": "自動販売機",
+    "reading": "じどうはんばいき",
+    "image": "14_jidohanbaiki.png"
+  },
+  {
+    "id": 15,
+    "word": "蛇口",
+    "reading": "じゃぐち",
+    "image": "15_jaguchi.png"
+  },
+  {
+    "id": 16,
+    "word": "ほうき",
+    "reading": "ほうき",
+    "image": "16_hoki.png"
+  },
+  {
+    "id": 17,
+    "word": "ちりとり",
+    "reading": "ちりとり",
+    "image": "17_chiritori.png"
+  },
+  {
+    "id": 18,
+    "word": "バケツ",
+    "reading": "ばけつ",
+    "image": "18_baketsu.png"
+  },
+  {
+    "id": 19,
+    "word": "ゴミ箱",
+    "reading": "ごみばこ",
+    "image": "19_gomibako.png"
+  },
+  {
+    "id": 20,
+    "word": "懐中電灯",
+    "reading": "かいちゅうでんとう",
+    "image": "20_kaichuudento.png",
+    "aliases": [
+      "ライト"
+    ]
+  },
+  {
+    "id": 21,
+    "word": "すりこぎ",
+    "reading": "すりこぎ",
+    "image": "21_surikogi.png"
+  },
+  {
+    "id": 22,
+    "word": "温度計",
+    "reading": "おんどけい",
+    "image": "22_ondokei.png"
+  },
+  {
+    "id": 23,
+    "word": "お手玉",
+    "reading": "おてだま",
+    "image": "23_otedama.png"
+  },
+  {
+    "id": 24,
+    "word": "招き猫",
+    "reading": "まねきねこ",
+    "image": "24_manekineko.png"
+  },
+  {
+    "id": 25,
+    "word": "鞍",
+    "reading": "くら",
+    "image": "25_kura.png"
+  }
+]
